@@ -127,7 +127,7 @@ const SideMenu = () => {
 							Data
 						</Typography>
 						<Item
-							title="Manage Team"
+							title="Manage Users"
 							to="/team"
 							icon={<PeopleOutlinedIcon />}
 							selected={selected}
