@@ -14,7 +14,13 @@ import PieChartOutlineOutlinedIcon from '@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
-import { Box, IconButton, Typography, useTheme } from '@mui/material';
+import {
+	Box,
+	IconButton,
+	Typography,
+	useMediaQuery,
+	useTheme,
+} from '@mui/material';
 
 import { tokens } from '../../theme';
 import userImage from '../../assets/user.jpg';
@@ -24,6 +30,7 @@ const SideMenu = () => {
 	const colors = tokens(theme.palette.mode);
 	const [isCollapsed, setIsCollapsed] = useState(false);
 	const [selected, setSelected] = useState('Dashboard');
+	const isMobile = useMediaQuery('(max-width: 490px)');
 
 	return (
 		<Box
@@ -39,10 +46,10 @@ const SideMenu = () => {
 					padding: '5px 35px 5px 20px !important',
 				},
 				'& .pro-inner-item:hover': {
-					color: '#868dfb !important',
+					color: '#29ab87 !important',
 				},
 				'& .pro-menu-item.active': {
-					color: '#6870fa !important',
+					color: '#29ab87 !important',
 				},
 				marginRight: '80px',
 			}}
@@ -66,7 +73,7 @@ const SideMenu = () => {
 							>
 								{/* <Typography variant="h3" color={colors.grey[100]}> */}
 								<Typography variant="h3" color={'#e0e0e0'}>
-									ADMINIS
+									Horse Bidding
 								</Typography>
 								<IconButton
 									onClick={() => setIsCollapsed(!isCollapsed)}
@@ -95,16 +102,16 @@ const SideMenu = () => {
 							</Box>
 							<Box textAlign="center">
 								<Typography
-									variant="h2"
+									variant="h4"
 									// color={colors.grey[100]}
 									color={'#e0e0e0'}
 									fontWeight="bold"
 									sx={{ m: '10px 0 0 0' }}
 								>
-									Your Name
+									Ayesha
 								</Typography>
-								<Typography variant="h5" color={colors.greenAccent[500]}>
-									VP Fancy Admin
+								<Typography variant="h6" color={'#29ab87  '}>
+									Admin
 								</Typography>
 							</Box>
 						</Box>
