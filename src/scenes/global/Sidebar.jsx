@@ -14,6 +14,7 @@ import PieChartOutlineOutlinedIcon from '@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from '@mui/icons-material/TimelineOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined';
+import ShoppingCartOutlined from '@mui/icons-material/ShoppingCartOutlined';
 import {
 	Box,
 	IconButton,
@@ -108,7 +109,7 @@ const SideMenu = () => {
 									fontWeight="bold"
 									sx={{ m: '10px 0 0 0' }}
 								>
-									Ayesha
+									Khinsa
 								</Typography>
 								<Typography variant="h6" color={'#29ab87  '}>
 									Admin
@@ -167,9 +168,9 @@ const SideMenu = () => {
 							Pages
 						</Typography>
 						<Item
-							title="Profile Form"
-							to="/form"
-							icon={<PersonOutlinedIcon />}
+							title="Auctions"
+							to="/products"
+							icon={<ShoppingCartOutlined />}
 							selected={selected}
 							setSelected={setSelected}
 						/>

@@ -15,6 +15,8 @@ import Invoices from './scenes/invoices';
 import FAQ from './scenes/faq';
 // import Geography from './scenes/geography';
 import { ColorModeContext, useMode } from './theme';
+import Products from './scenes/products';
+import AddProduct from './scenes/addProduct';
 
 function App() {
 	const [theme, colorMode] = useMode();
@@ -33,7 +35,8 @@ function App() {
 							<Route path="/team" element={<Team />} />
 							{/* <Route path="/contacts" element={<Contacts />} /> */}
 							<Route path="/invoices" element={<Invoices />} />
-							{/* <Route path="/form" element={<Form />} /> */}
+							<Route path="/products" element={<Products />} />
+							<Route path="/addProduct" element={<AddProduct />} />
 							{/* <Route path="/bar" element={<Bar />} /> */}
 							{/* <Route path="/pie" element={<Pie />} /> */}
 							{/* <Route path="/line" element={<Line />} /> */}
