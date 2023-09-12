@@ -14,6 +14,7 @@ import {
 	Autocomplete,
 	Chip,
 	CircularProgress,
+	Skeleton,
 } from '@mui/material';
 import { AddCircle, DeleteOutline } from '@mui/icons-material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -27,6 +28,7 @@ import Header from '../../components/Header';
 import FlexBetween from '../../components/FlexBetween';
 import ImageSlider from '../../components/ImageSlider';
 import { useQuery } from '@tanstack/react-query';
+import useBidProducts from '../../hooks/useBidProducts';
 
 const Products = () => {
 	const theme = useTheme();
@@ -35,13 +37,15 @@ const Products = () => {
 	const [finalData, setFinalData] = useState();
 	const [categories, setCategories] = useState([]);
 
-	const { isLoading, data } = useQuery({
+	const { isLoading, data, isFetching } = useQuery({
 		queryKey: ['products'],
 		queryFn: () =>
 			axios
 				.get('https://erin-impossible-donkey.cyclic.app/client/products')
 				.then((res) => res.data),
 	});
+
+	// const { data,isLoading,error} = useBidProducts();
 
 	useEffect(() => {
 		setFinalData(data);
@@ -53,7 +57,7 @@ const Products = () => {
 
 	return (
 		<Box m="1.5rem 2.5rem">
-			<Header title="Auctions" subtitle="See your list of Bids" />
+			<Header title="Auctions" su btitle="See your list of Bids" />
 			<Box sx={{ marginTop: 1 }}>
 				<Link to={'/addProduct'} style={{ textDecoration: 'none' }}>
 					<Button type="submit" color="secondary" variant="contained">
@@ -63,7 +67,38 @@ const Products = () => {
 				</Link>
 			</Box>
 
-			{data || !isLoading ? (
+			{/* {isFetching && (
+				<Box display="flex" flex={1} justifyContent="center">
+					<CircularProgress />
+					<Skeleton variant="rectangular" width={210} height={118} />
+				</Box>
+			)} */}
+			{isFetching && !data && (
+				<Box
+					mt="20px"
+					display="grid"
+					gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+					justifyContent="space-between"
+					rowGap="20px"
+					columnGap="1.33%"
+					sx={{
+						'& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
+					}}
+				>
+					{[1, 2, 3, 4, 5, 6, 7].map((i) => (
+						<Box key={i} display="flex" flexDirection="column">
+							<Skeleton variant="rectangular" height={118} />
+							<Skeleton width="90%" />
+							<Skeleton width="50%" />
+							<Skeleton width="70%" />
+							<Skeleton width="80%" />
+							<Skeleton width="25%" height={40} />
+						</Box>
+					))}
+				</Box>
+			)}
+
+			{(data || !isLoading) && (
 				<Box
 					mt="20px"
 					display="grid"
@@ -83,10 +118,6 @@ const Products = () => {
 							categoriesNames={categoriesNames}
 						/>
 					))}
-				</Box>
-			) : (
-				<Box display="flex" flex={1} justifyContent="center">
-					<CircularProgress />
 				</Box>
 			)}
 		</Box>
