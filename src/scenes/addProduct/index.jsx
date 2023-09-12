@@ -25,10 +25,10 @@ const TabViews = ({ isNonMobile }) => {
 
 	const handleChange = (e) => {
 		switch (e.target.textContent) {
-			case 'Fixed Price':
+			case 'Fixed Price Auction':
 				setValue('1');
 				break;
-			case 'Highest Bid':
+			case 'Highest Bid Auction':
 				setValue('2');
 				break;
 		}
@@ -42,8 +42,8 @@ const TabViews = ({ isNonMobile }) => {
 					aria-label="lab API tabs example"
 					centered={isNonMobile}
 				>
-					<Tab label="Fixed Price" value="1" />
-					<Tab label="Highest Bid" value="2" />
+					<Tab label="Fixed Price Auction" value="1" />
+					<Tab label="Highest Bid Auction" value="2" />
 				</TabList>
 			</Box>
 			<TabPanel value="1">

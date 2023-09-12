@@ -67,12 +67,6 @@ const Products = () => {
 				</Link>
 			</Box>
 
-			{/* {isFetching && (
-				<Box display="flex" flex={1} justifyContent="center">
-					<CircularProgress />
-					<Skeleton variant="rectangular" width={210} height={118} />
-				</Box>
-			)} */}
 			{isFetching && !data && (
 				<Box
 					mt="20px"
@@ -85,14 +79,14 @@ const Products = () => {
 						'& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
 					}}
 				>
-					{[1, 2, 3, 4, 5, 6, 7].map((i) => (
-						<Box key={i} display="flex" flexDirection="column">
-							<Skeleton variant="rectangular" height={118} />
+					{[...Array(10).fill(1)].map((_, i) => (
+						<Box key={i} display="flex" flexDirection="column" gap={1}>
+							<Skeleton variant="rounded" height={200} />
 							<Skeleton width="90%" />
 							<Skeleton width="50%" />
 							<Skeleton width="70%" />
 							<Skeleton width="80%" />
-							<Skeleton width="25%" height={40} />
+							<Skeleton width="25%" height={45} />
 						</Box>
 					))}
 				</Box>
