@@ -1,4 +1,4 @@
-import { Box, Button, Tab, TextField } from '@mui/material';
+import { Box, Button, Tab, TextField, Typography } from '@mui/material';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
@@ -8,6 +8,12 @@ import * as yup from 'yup';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from '../../components/Header';
 import { useState } from 'react';
+import { ArrowDropDownCircleOutlined } from '@mui/icons-material';
+import {
+	Accordion,
+	AccordionDetails,
+	AccordionSummary,
+} from '../../components/MyAccordian';
 
 export default () => {
 	const isNonMobile = useMediaQuery('(min-width:600px)');
@@ -28,7 +34,7 @@ const TabViews = ({ isNonMobile }) => {
 			case 'Fixed Price Auction':
 				setValue('1');
 				break;
-			case 'Highest Bid Auction':
+			case 'Realtime Auction':
 				setValue('2');
 				break;
 		}
@@ -43,7 +49,7 @@ const TabViews = ({ isNonMobile }) => {
 					centered={isNonMobile}
 				>
 					<Tab label="Fixed Price Auction" value="1" />
-					<Tab label="Highest Bid Auction" value="2" />
+					<Tab label="Realtime Auction" value="2" />
 				</TabList>
 			</Box>
 			<TabPanel value="1">
@@ -55,9 +61,106 @@ const TabViews = ({ isNonMobile }) => {
 };
 
 const FixedPriceAuction = ({ isNonMobile }) => {
+	const [expanded, setExpanded] = useState('panel1');
+
+	const handleAccordianChange = (panel) => (event, newExpanded) => {
+		setExpanded(newExpanded ? panel : false);
+	};
+
 	const handleFormSubmit = (values) => {
 		console.log(values);
 	};
+
+	const MainProps = ({ values, errors, touched, handleBlur, handleChange }) => (
+		<Box
+			display="grid"
+			gap="30px"
+			gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+			sx={{
+				'& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
+			}}
+		>
+			<TextField
+				fullWidth
+				variant="filled"
+				type="text"
+				label="Horese Property 1"
+				onBlur={handleBlur}
+				onChange={handleChange}
+				value={values.firstName}
+				name="firstName"
+				error={!!touched.firstName && !!errors.firstName}
+				helperText={touched.firstName && errors.firstName}
+				sx={{ gridColumn: 'span 2' }}
+			/>
+			<TextField
+				fullWidth
+				variant="filled"
+				type="text"
+				label="Horese Property 2"
+				onBlur={handleBlur}
+				onChange={handleChange}
+				value={values.lastName}
+				name="lastName"
+				error={!!touched.lastName && !!errors.lastName}
+				helperText={touched.lastName && errors.lastName}
+				sx={{ gridColumn: 'span 2' }}
+			/>
+			<TextField
+				fullWidth
+				variant="filled"
+				type="text"
+				label="Horese Property 3"
+				onBlur={handleBlur}
+				onChange={handleChange}
+				value={values.email}
+				name="email"
+				error={!!touched.email && !!errors.email}
+				helperText={touched.email && errors.email}
+				sx={{ gridColumn: 'span 4' }}
+			/>
+			<TextField
+				fullWidth
+				variant="filled"
+				type="text"
+				label="Horese Property 4"
+				onBlur={handleBlur}
+				onChange={handleChange}
+				value={values.contact}
+				name="contact"
+				error={!!touched.contact && !!errors.contact}
+				helperText={touched.contact && errors.contact}
+				sx={{ gridColumn: 'span 4' }}
+			/>
+			<TextField
+				fullWidth
+				variant="filled"
+				type="text"
+				label="Horese Property 5"
+				onBlur={handleBlur}
+				onChange={handleChange}
+				value={values.address1}
+				name="address1"
+				error={!!touched.address1 && !!errors.address1}
+				helperText={touched.address1 && errors.address1}
+				sx={{ gridColumn: 'span 4' }}
+			/>
+			<TextField
+				fullWidth
+				variant="filled"
+				type="text"
+				label="Horese Property 6"
+				onBlur={handleBlur}
+				onChange={handleChange}
+				value={values.address2}
+				name="address2"
+				error={!!touched.address2 && !!errors.address2}
+				helperText={touched.address2 && errors.address2}
+				sx={{ gridColumn: 'span 4' }}
+			/>
+		</Box>
+	);
+
 	return (
 		<Formik
 			onSubmit={handleFormSubmit}
@@ -73,93 +176,92 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 				handleSubmit,
 			}) => (
 				<form onSubmit={handleSubmit}>
-					<Box
-						display="grid"
-						gap="30px"
-						gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-						sx={{
-							'& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
-						}}
-					>
-						<TextField
-							fullWidth
-							variant="filled"
-							type="text"
-							label="Horese Property 1"
-							onBlur={handleBlur}
-							onChange={handleChange}
-							value={values.firstName}
-							name="firstName"
-							error={!!touched.firstName && !!errors.firstName}
-							helperText={touched.firstName && errors.firstName}
-							sx={{ gridColumn: 'span 2' }}
-						/>
-						<TextField
-							fullWidth
-							variant="filled"
-							type="text"
-							label="Horese Property 2"
-							onBlur={handleBlur}
-							onChange={handleChange}
-							value={values.lastName}
-							name="lastName"
-							error={!!touched.lastName && !!errors.lastName}
-							helperText={touched.lastName && errors.lastName}
-							sx={{ gridColumn: 'span 2' }}
-						/>
-						<TextField
-							fullWidth
-							variant="filled"
-							type="text"
-							label="Horese Property 3"
-							onBlur={handleBlur}
-							onChange={handleChange}
-							value={values.email}
-							name="email"
-							error={!!touched.email && !!errors.email}
-							helperText={touched.email && errors.email}
-							sx={{ gridColumn: 'span 4' }}
-						/>
-						<TextField
-							fullWidth
-							variant="filled"
-							type="text"
-							label="Horese Property 4"
-							onBlur={handleBlur}
-							onChange={handleChange}
-							value={values.contact}
-							name="contact"
-							error={!!touched.contact && !!errors.contact}
-							helperText={touched.contact && errors.contact}
-							sx={{ gridColumn: 'span 4' }}
-						/>
-						<TextField
-							fullWidth
-							variant="filled"
-							type="text"
-							label="Horese Property 5"
-							onBlur={handleBlur}
-							onChange={handleChange}
-							value={values.address1}
-							name="address1"
-							error={!!touched.address1 && !!errors.address1}
-							helperText={touched.address1 && errors.address1}
-							sx={{ gridColumn: 'span 4' }}
-						/>
-						<TextField
-							fullWidth
-							variant="filled"
-							type="text"
-							label="Horese Property 6"
-							onBlur={handleBlur}
-							onChange={handleChange}
-							value={values.address2}
-							name="address2"
-							error={!!touched.address2 && !!errors.address2}
-							helperText={touched.address2 && errors.address2}
-							sx={{ gridColumn: 'span 4' }}
-						/>
-					</Box>
+					<div>
+						<Accordion
+							expanded={expanded === 'panel1'}
+							onChange={handleAccordianChange('panel1')}
+						>
+							<AccordionSummary
+								aria-controls="panel1d-content"
+								id="panel1d-header"
+							>
+								<Typography>Main Horse Data</Typography>
+							</AccordionSummary>
+							<AccordionDetails>
+								<MainProps
+									values={values}
+									errors={errors}
+									touched={touched}
+									handleBlur={handleBlur}
+									handleChange={handleChange}
+								/>
+							</AccordionDetails>
+						</Accordion>
+
+						<Accordion
+							expanded={expanded === 'panel2'}
+							onChange={handleAccordianChange('panel2')}
+						>
+							<AccordionSummary
+								aria-controls="panel2d-content"
+								id="panel2d-header"
+							>
+								<Typography>Owner</Typography>
+							</AccordionSummary>
+							<AccordionDetails>
+								<Typography>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+									Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
+									eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+									Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
+									eget.
+								</Typography>
+							</AccordionDetails>
+						</Accordion>
+
+						<Accordion
+							expanded={expanded === 'panel3'}
+							onChange={handleAccordianChange('panel3')}
+						>
+							<AccordionSummary
+								aria-controls="panel3d-content"
+								id="panel3d-header"
+							>
+								<Typography>Entered Horse</Typography>
+							</AccordionSummary>
+							<AccordionDetails>
+								<Typography>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+									Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
+									eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+									Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
+									eget.
+								</Typography>
+							</AccordionDetails>
+						</Accordion>
+
+						<Accordion
+							expanded={expanded === 'panel4'}
+							onChange={handleAccordianChange('panel4')}
+						>
+							<AccordionSummary
+								aria-controls="panel4d-content"
+								id="panel4d-header"
+							>
+								<Typography>Other Options</Typography>
+							</AccordionSummary>
+							<AccordionDetails>
+								<Typography>
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+									Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
+									eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+									Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
+									eget.
+								</Typography>
+							</AccordionDetails>
+						</Accordion>
+					</div>
+
 					<Box display="flex" justifyContent="end" mt="20px">
 						<Button type="submit" color="secondary" variant="contained">
 							Create New Auction
