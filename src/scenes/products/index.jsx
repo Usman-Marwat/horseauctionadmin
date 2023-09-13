@@ -30,7 +30,8 @@ import ImageSlider from '../../components/ImageSlider';
 import { useQuery } from '@tanstack/react-query';
 import useBidProducts from '../../hooks/useBidProducts';
 
-const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
+// const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
+const baseUrl = 'https://erin-impossible-donkey.cyclic.app/';
 
 const Products = () => {
 	const theme = useTheme();
