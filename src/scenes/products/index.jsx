@@ -30,6 +30,8 @@ import ImageSlider from '../../components/ImageSlider';
 import { useQuery } from '@tanstack/react-query';
 import useBidProducts from '../../hooks/useBidProducts';
 
+const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
+
 const Products = () => {
 	const theme = useTheme();
 	const isNonMobile = useMediaQuery('(min-width: 1000px)');
@@ -37,8 +39,7 @@ const Products = () => {
 
 	const { data, isLoading } = useQuery({
 		queryKey: ['products'],
-		queryFn: () =>
-			axios.get('http://localhost:5001/auction').then((res) => res.data),
+		queryFn: () => axios.get(`${baseUrl}auction`).then((res) => res.data),
 	});
 
 	// const { data,isLoading,error} = useBidProducts();
@@ -114,8 +115,6 @@ const Product = ({ item, onSelect }) => {
 		console.log();
 	};
 
-	console.log(item);
-
 	return (
 		<Card
 			sx={{
@@ -129,6 +128,9 @@ const Product = ({ item, onSelect }) => {
 
 				<Typography variant="h5" component="div">
 					{item.horseTitle}
+				</Typography>
+				<Typography variant="h6" component="div">
+					{item.type === 'Fixed' ? 'Fixed Price Auction' : 'Real Time Auction'}
 				</Typography>
 				<Typography sx={{ mb: '1.5rem' }} color={theme.palette.secondary[400]}>
 					${item.reservedPrice}

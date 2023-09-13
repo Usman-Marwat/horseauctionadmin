@@ -34,6 +34,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from '@mui/icons-material';
 
+const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
+const cloudName = import.meta.env.VITE_CLOUD_NAME;
+const cloudPreset = import.meta.env.VITE_PRESET;
+
 export default () => {
 	const isNonMobile = useMediaQuery('(min-width:600px)');
 
@@ -94,9 +98,7 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 
 	const addAuction = useMutation({
 		mutationFn: (auction) =>
-			axios
-				.post('http://localhost:5001/auction', auction)
-				.then((res) => res.data),
+			axios.post(`${baseUrl}auction`, auction).then((res) => res.data),
 		onSuccess: (savedAuction, sentAuction) => {
 			console.log(savedAuction);
 			setSuccessSnack(true);
@@ -116,11 +118,11 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 		for (const file of values.imagesFiles) {
 			const formData = new FormData();
 			formData.append('file', file);
-			formData.append('upload_preset', 'hgdunol9');
+			formData.append('upload_preset', cloudPreset);
 
 			try {
 				const response = await fetch(
-					'https://api.cloudinary.com/v1_1/dhhmnhd8c/upload/',
+					`https://api.cloudinary.com/v1_1/${cloudName}/upload/`,
 					{
 						method: 'POST',
 						body: formData,
