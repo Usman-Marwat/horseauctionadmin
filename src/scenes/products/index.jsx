@@ -135,11 +135,30 @@ const Product = ({ item, onSelect }) => {
 				<Typography sx={{ mb: '1.5rem' }} color={theme.palette.secondary[400]}>
 					${item.reservedPrice}
 				</Typography>
+				<Typography sx={{ mb: '1.5rem' }} color={theme.palette.secondary[400]}>
+					Start Time:
+					<Typography variant="body2">
+						{new Date(item.startTime).toString()}
+					</Typography>
+				</Typography>
+
+				{item.endTime && (
+					<Typography
+						sx={{ mb: '1.5rem' }}
+						color={theme.palette.secondary[400]}
+					>
+						End Time:
+						<Typography variant="body2">
+							{new Date(item.endTime).toString()}
+						</Typography>
+					</Typography>
+				)}
 				{/* <Rating value={item.rating} readOnly /> */}
 
 				<Typography variant="body2">Breed: {item.breed}</Typography>
 				<Typography variant="body2">Color: {item.color}</Typography>
 				<Typography variant="body2">Sex: {item.sex}</Typography>
+				<Typography variant="body2">Start Time: {item.startTime}</Typography>
 			</CardContent>
 			<CardActions>
 				<Button
