@@ -38,9 +38,7 @@ const Products = () => {
 	const { data, isLoading } = useQuery({
 		queryKey: ['products'],
 		queryFn: () =>
-			axios
-				.get('https://erin-impossible-donkey.cyclic.app/client/products')
-				.then((res) => res.data),
+			axios.get('http://localhost:5001/auction').then((res) => res.data),
 	});
 
 	// const { data,isLoading,error} = useBidProducts();
@@ -116,6 +114,8 @@ const Product = ({ item, onSelect }) => {
 		console.log();
 	};
 
+	console.log(item);
+
 	return (
 		<Card
 			sx={{
@@ -125,17 +125,19 @@ const Product = ({ item, onSelect }) => {
 			}}
 		>
 			<CardContent>
-				<ImageSlider />
+				<ImageSlider imageUrls={item.images} />
 
 				<Typography variant="h5" component="div">
-					{item.name}
+					{item.horseTitle}
 				</Typography>
 				<Typography sx={{ mb: '1.5rem' }} color={theme.palette.secondary[400]}>
-					${item.price}
+					${item.reservedPrice}
 				</Typography>
-				<Rating value={item.rating} readOnly />
+				{/* <Rating value={item.rating} readOnly /> */}
 
-				<Typography variant="body2">{item.description}</Typography>
+				<Typography variant="body2">Breed: {item.breed}</Typography>
+				<Typography variant="body2">Color: {item.color}</Typography>
+				<Typography variant="body2">Sex: {item.sex}</Typography>
 			</CardContent>
 			<CardActions>
 				<Button
@@ -155,13 +157,7 @@ const Product = ({ item, onSelect }) => {
 				}}
 			>
 				<CardContent>
-					<Typography>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem vero
-						sunt, labore omnis expedita harum iure architecto fugit consequuntur
-						quam inventore adipisci. Nesciunt, eaque dolor, voluptas inventore
-						dolorem ipsum praesentium minima dicta, laboriosam dolore aliquam
-						esse illo sint provident illum autem ab quisquam aspernatur.
-					</Typography>
+					<Typography>{item.description}</Typography>
 				</CardContent>
 			</Collapse>
 		</Card>

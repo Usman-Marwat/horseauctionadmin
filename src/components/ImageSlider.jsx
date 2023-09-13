@@ -6,7 +6,7 @@ import 'react-slideshow-image/dist/styles.css';
 import LeftIcon from '@mui/icons-material/ChevronLeftOutlined';
 import RightIcon from '@mui/icons-material/ChevronRightOutlined';
 
-export default function Example() {
+export default function Example({ imageUrls }) {
 	const slideRef = useRef(null);
 
 	return (
@@ -18,18 +18,19 @@ export default function Example() {
 				nextArrow={<></>}
 				transitionDuration={300}
 			>
-				{[1, 2, 3, 4].map((_, index) => (
-					<Box
-						key={index}
-						component="img"
-						sx={{
-							height: '100%',
-							width: '100%',
-							borderRadius: 1,
-						}}
-						alt="The house from the offer."
-						src={slideImages[Math.floor(Math.random() * 11)]}
-					/>
+				{imageUrls.map((url, index) => (
+					<Box key={index} sx={{ height: 200, width: '100%' }}>
+						<img
+							src={url}
+							alt="The house from the offer."
+							style={{
+								height: '100%',
+								width: '100%',
+								borderRadius: 1,
+								objectFit: 'contain',
+							}}
+						/>
+					</Box>
 				))}
 			</Slide>
 			<Box
