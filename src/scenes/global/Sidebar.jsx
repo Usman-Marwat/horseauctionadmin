@@ -29,7 +29,7 @@ import userImage from '../../assets/user.jpg';
 const SideMenu = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-	const [isCollapsed, setIsCollapsed] = useState(false);
+	const [isCollapsed, setIsCollapsed] = useState(true);
 	const [selected, setSelected] = useState('Dashboard');
 	const isMobile = useMediaQuery('(max-width: 490px)');
 

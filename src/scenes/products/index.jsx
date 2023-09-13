@@ -34,10 +34,8 @@ const Products = () => {
 	const theme = useTheme();
 	const isNonMobile = useMediaQuery('(min-width: 1000px)');
 	const [selected, setSelected] = useState();
-	const [finalData, setFinalData] = useState();
-	const [categories, setCategories] = useState([]);
 
-	const { isLoading, data, isFetching } = useQuery({
+	const { data, isLoading } = useQuery({
 		queryKey: ['products'],
 		queryFn: () =>
 			axios
@@ -46,14 +44,6 @@ const Products = () => {
 	});
 
 	// const { data,isLoading,error} = useBidProducts();
-
-	useEffect(() => {
-		setFinalData(data);
-	}, [data]);
-
-	if (!finalData || !categories) return;
-
-	const categoriesNames = categories;
 
 	return (
 		<Box m="1.5rem 2.5rem">
@@ -67,7 +57,7 @@ const Products = () => {
 				</Link>
 			</Box>
 
-			{isFetching && !data && (
+			{isLoading && (
 				<Box
 					mt="20px"
 					display="grid"
@@ -104,12 +94,11 @@ const Products = () => {
 						'& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
 					}}
 				>
-					{finalData.map((product) => (
+					{data.map((product) => (
 						<Product
 							key={product._id}
 							item={product}
 							onSelect={(item) => setSelected(item)}
-							categoriesNames={categoriesNames}
 						/>
 					))}
 				</Box>
