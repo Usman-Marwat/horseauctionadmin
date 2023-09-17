@@ -19,6 +19,10 @@ import FAQ from './scenes/faq';
 import { ColorModeContext, useMode } from './theme';
 import Products from './scenes/products';
 import AddProduct from './scenes/addProduct';
+import SignUp from './scenes/Auth/Signup';
+import SignIn from './scenes/Auth/Signin';
+import RequireAuth from './scenes/RequireAuth';
+import Missing from './scenes/Missing';
 
 function App() {
 	const [theme, colorMode] = useMode();
@@ -36,16 +40,20 @@ function App() {
 							<Routes>
 								<Route path="/" element={<Dashboard />} />
 								<Route path="/team" element={<Team />} />
-								{/* <Route path="/contacts" element={<Contacts />} /> */}
-								<Route path="/invoices" element={<Invoices />} />
-								<Route path="/products" element={<Products />} />
-								<Route path="/addProduct" element={<AddProduct />} />
-								{/* <Route path="/bar" element={<Bar />} /> */}
-								{/* <Route path="/pie" element={<Pie />} /> */}
-								{/* <Route path="/line" element={<Line />} /> */}
 								<Route path="/faq" element={<FAQ />} />
-								{/* <Route path="/calendar" element={<Calendar />} /> */}
-								{/* <Route path="/geography" element={<Geography />} /> */}
+								<Route path="/invoices" element={<Invoices />} />
+
+								<Route path="/signin" element={<SignIn />} />
+								<Route path="/signup" element={<SignUp />} />
+
+								{/*Protected Routes*/}
+								<Route element={<RequireAuth />}>
+									<Route path="/products" element={<Products />} />
+									<Route path="/addProduct" element={<AddProduct />} />
+								</Route>
+
+								{/*Catch all*/}
+								<Route path="*" element={<Missing />} />
 							</Routes>
 						</main>
 					</div>
