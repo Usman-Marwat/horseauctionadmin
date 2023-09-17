@@ -36,7 +36,7 @@ function App() {
 	const [theme, colorMode] = useMode();
 	const [isSidebar, setIsSidebar] = useState(true);
 
-	const user = 'Admin';
+	const user = 'Admxin';
 
 	return (
 		<ColorModeContext.Provider value={colorMode}>
@@ -50,26 +50,11 @@ function App() {
 							<main className="content">
 								<Topbar setIsSidebar={setIsSidebar} />
 								<Routes>
-									{/*Auth */}
-									<Route path="/signin" element={<SignIn />} />
-									<Route path="/signup" element={<SignUp />} />
-
 									{/*Admin */}
 									<Route path="/" element={<Dashboard />} />
 									<Route path="/team" element={<Team />} />
 									<Route path="/faq" element={<FAQ />} />
 									<Route path="/invoices" element={<Invoices />} />
-
-									{/*Customer */}
-									<Route
-										path="/"
-										element={<Navigate to="/auction" replace />}
-									/>
-									<Route path="/auction" element={<LandingPage />} />
-									<Route path="/about" element={<AboutPage />} />
-									<Route path="/blog" element={<BlogPage />} />
-									<Route path="/productsClient" element={<ProductsPage />} />
-									<Route path="/contact" element={<ContactPage />} />
 
 									{/*Protected Routes*/}
 									<Route element={<RequireAuth />}>
@@ -84,12 +69,14 @@ function App() {
 						</div>
 					) : (
 						<Routes>
-							{/* <Route path="/" element={<Navigate to="/auction" replace />} /> */}
 							<Route path="/" element={<LandingPage />} />
+							<Route path="/signin" element={<SignIn />} />
+							<Route path="/signup" element={<SignUp />} />
 							<Route path="/about" element={<AboutPage />} />
 							<Route path="/blog" element={<BlogPage />} />
 							<Route path="/products" element={<ProductsPage />} />
 							<Route path="/contact" element={<ContactPage />} />
+							<Route path="*" element={<Missing />} />
 						</Routes>
 					)}
 				</ThemeProvider>

@@ -5,7 +5,7 @@ import { PiDotsNineBold } from 'react-icons/pi';
 
 import './Navbar.css';
 import logo from '../../../assets/logo.jpg';
-  
+
 function Navbar() {
 	const [navbar, setNavbar] = useState('navbar');
 	const [header, setHeader] = useState('header');
@@ -60,7 +60,9 @@ function Navbar() {
 
 			{/* <button className="btn signUpBtn">Sign Up</button> */}
 			<div className="signUp flex">
-				<div className="text">Sign Up</div>
+				<Link to="/signup">
+					<div className="text">Sign Up</div>
+				</Link>
 				<PiDotsNineBold
 					className="icon toggleNavbarIcon"
 					onClick={showNavbar}
