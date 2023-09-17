@@ -89,7 +89,8 @@ const SideMenu = () => {
 					{!isCollapsed && (
 						<Box mb="25px">
 							<Box display="flex" justifyContent="center" alignItems="center">
-								<img
+								<Box
+									component="img"
 									alt="profile-user"
 									width="100px"
 									height="100px"

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
@@ -24,39 +24,74 @@ import SignIn from './scenes/Auth/Signin';
 import RequireAuth from './scenes/RequireAuth';
 import Missing from './scenes/Missing';
 
+import AboutPage from './pagesCustomer/AboutPage';
+import LandingPage from './pagesCustomer/LandingPage';
+import BlogPage from './pagesCustomer/BlogPage';
+import ProductsPage from './pagesCustomer/ProductsPage';
+import ContactPage from './pagesCustomer/ContactPage';
+
+import './App.css';
+
 function App() {
 	const [theme, colorMode] = useMode();
 	const [isSidebar, setIsSidebar] = useState(true);
+
+	const user = 'Admin';
 
 	return (
 		<ColorModeContext.Provider value={colorMode}>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
-					<div className="app">
-						<Sidebar isSidebar={isSidebar} />
-						<main className="content">
-							<Topbar setIsSidebar={setIsSidebar} />
-							<Routes>
-								<Route path="/" element={<Dashboard />} />
-								<Route path="/team" element={<Team />} />
-								<Route path="/faq" element={<FAQ />} />
-								<Route path="/invoices" element={<Invoices />} />
 
-								<Route path="/signin" element={<SignIn />} />
-								<Route path="/signup" element={<SignUp />} />
+					{user === 'Admin' ? (
+						<div className="app">
+							<Sidebar isSidebar={isSidebar} />
+							<main className="content">
+								<Topbar setIsSidebar={setIsSidebar} />
+								<Routes>
+									{/*Auth */}
+									<Route path="/signin" element={<SignIn />} />
+									<Route path="/signup" element={<SignUp />} />
 
-								{/*Protected Routes*/}
-								<Route element={<RequireAuth />}>
-									<Route path="/products" element={<Products />} />
-									<Route path="/addProduct" element={<AddProduct />} />
-								</Route>
+									{/*Admin */}
+									<Route path="/" element={<Dashboard />} />
+									<Route path="/team" element={<Team />} />
+									<Route path="/faq" element={<FAQ />} />
+									<Route path="/invoices" element={<Invoices />} />
 
-								{/*Catch all*/}
-								<Route path="*" element={<Missing />} />
-							</Routes>
-						</main>
-					</div>
+									{/*Customer */}
+									<Route
+										path="/"
+										element={<Navigate to="/auction" replace />}
+									/>
+									<Route path="/auction" element={<LandingPage />} />
+									<Route path="/about" element={<AboutPage />} />
+									<Route path="/blog" element={<BlogPage />} />
+									<Route path="/productsClient" element={<ProductsPage />} />
+									<Route path="/contact" element={<ContactPage />} />
+
+									{/*Protected Routes*/}
+									<Route element={<RequireAuth />}>
+										<Route path="/products" element={<Products />} />
+										<Route path="/addProduct" element={<AddProduct />} />
+									</Route>
+
+									{/*Catch all*/}
+									<Route path="*" element={<Missing />} />
+								</Routes>
+							</main>
+						</div>
+					) : (
+						<Routes>
+							{/* <Route path="/" element={<Navigate to="/auction" replace />} /> */}
+							<Route path="/" element={<LandingPage />} />
+							<Route path="/about" element={<AboutPage />} />
+							<Route path="/blog" element={<BlogPage />} />
+							<Route path="/products" element={<ProductsPage />} />
+							<Route path="/contact" element={<ContactPage />} />
+						</Routes>
+					)}
 				</ThemeProvider>
 			</LocalizationProvider>
 		</ColorModeContext.Provider>
