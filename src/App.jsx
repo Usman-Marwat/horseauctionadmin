@@ -31,20 +31,21 @@ import ProductsPage from './pagesCustomer/ProductsPage';
 import ContactPage from './pagesCustomer/ContactPage';
 
 import './App.css';
+import useAuth from './hooks/useAuth';
+import CustomerProducts from './pagesCustomer/CustomerProducts';
 
 function App() {
 	const [theme, colorMode] = useMode();
 	const [isSidebar, setIsSidebar] = useState(true);
-
-	const user = 'Admxin';
-
+	const { auth } = useAuth();
+	console.log(auth);
 	return (
 		<ColorModeContext.Provider value={colorMode}>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
 
-					{user === 'Admin' ? (
+					{auth?.role === 'admin' ? (
 						<div className="app">
 							<Sidebar isSidebar={isSidebar} />
 							<main className="content">
@@ -56,17 +57,26 @@ function App() {
 									<Route path="/faq" element={<FAQ />} />
 									<Route path="/invoices" element={<Invoices />} />
 
+									<Route path="/signin" element={<SignIn />} />
+									<Route path="/signup" element={<SignUp />} />
+
 									{/*Protected Routes*/}
-									<Route element={<RequireAuth allowedRoles={[2001]} />}>
-										<Route path="/products" element={<Products />} />
-										<Route path="/addProduct" element={<AddProduct />} />
-									</Route>
+									{/* <Route element={<RequireAuth allowedRoles={[2001]} />}> */}
+									<Route path="/products" element={<Products />} />
+									<Route path="/addProduct" element={<AddProduct />} />
+									{/* </Route> */}
 
 									{/*Catch all*/}
 									<Route path="*" element={<Missing />} />
 								</Routes>
 							</main>
 						</div>
+					) : auth?.role === 'customer' ? (
+						<Routes>
+							<Route path="/signin" element={<CustomerProducts />} />
+							{/* <Route path="/signin" element={<SignIn />} /> */}
+							{/* <Route path="/signup" element={<SignUp />} /> */}
+						</Routes>
 					) : (
 						<Routes>
 							<Route path="/" element={<LandingPage />} />

@@ -10,9 +10,16 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
-import { Backdrop, CircularProgress, Fade, Modal } from '@mui/material';
+import {
+	Alert,
+	Backdrop,
+	CircularProgress,
+	Fade,
+	Modal,
+	Snackbar,
+} from '@mui/material';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useMutation } from '@tanstack/react-query';
@@ -24,8 +31,10 @@ export default function SignUp() {
 	const [open, setOpen] = useState(false);
 	const [error, setError] = useState();
 	const [formData, setFormData] = useState({});
+	const [isSuccessSnack, setSuccessSnack] = useState(false);
+	const navigate = useNavigate();
 
-	const generateOtp = useMutation({
+	const otpApi = useMutation({
 		mutationFn: (email) =>
 			axios.post(`${baseURL}auth/generateOtp`, email).then((res) => res.data),
 		onSuccess: ({ state_id }) => {
@@ -38,11 +47,12 @@ export default function SignUp() {
 		},
 	});
 
-	const register = useMutation({
+	const registerApi = useMutation({
 		mutationFn: (member) =>
 			axios.post(`${baseURL}auth/signup`, member).then((res) => res.data),
 		onSuccess: (savedMember) => {
 			console.log(savedMember);
+			setSuccessSnack(true);
 		},
 		onError: ({ response }) => {
 			setError(response.data.error);
@@ -50,24 +60,44 @@ export default function SignUp() {
 	});
 
 	const handleSignUp = (otp) => {
-		register.mutate({ ...formData, otp, role: 'customer' });
+		registerApi.mutate({ ...formData, otp, role: 'customer' });
+		if (!registerApi.isError) navigate('/signin');
 	};
 
 	const handleFormSubmit = async (values, { resetForm }) => {
-		generateOtp.mutate({ email: values.email });
+		otpApi.mutate({ email: values.email });
 		setFormData({ ...values });
 
-		// if (!generateOtp.isError) resetForm();
+		if (!otpApi.isError) resetForm();
+	};
+
+	const handleSnackBarClose = (event, reason) => {
+		if (reason === 'clickaway') return;
+		setSuccessSnack(false);
 	};
 
 	return (
 		<Container component="main" maxWidth="xs">
 			<Backdrop
 				sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				open={generateOtp.isLoading || register.isLoading}
+				open={otpApi.isLoading || registerApi.isLoading}
 			>
 				<CircularProgress color="inherit" />
 			</Backdrop>
+
+			<Snackbar
+				open={isSuccessSnack}
+				autoHideDuration={5000}
+				onClose={handleSnackBarClose}
+			>
+				<Alert
+					onClose={() => setSuccessSnack(false)}
+					severity="success"
+					sx={{ width: '100%' }}
+				>
+					<Typography>User is successfully Created!</Typography>
+				</Alert>
+			</Snackbar>
 
 			<Box
 				sx={{
@@ -98,7 +128,6 @@ export default function SignUp() {
 						handleBlur,
 						handleChange,
 						handleSubmit,
-						setFieldValue,
 					}) => (
 						<Box
 							component="form"
@@ -175,7 +204,6 @@ export default function SignUp() {
 								fullWidth
 								variant="contained"
 								sx={{ mt: 3, mb: 2 }}
-								// onClick={() => setOpen(true)}
 							>
 								Sign Up
 							</Button>
