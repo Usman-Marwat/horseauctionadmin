@@ -57,7 +57,7 @@ function App() {
 									<Route path="/invoices" element={<Invoices />} />
 
 									{/*Protected Routes*/}
-									<Route element={<RequireAuth />}>
+									<Route element={<RequireAuth allowedRoles={[2001]} />}>
 										<Route path="/products" element={<Products />} />
 										<Route path="/addProduct" element={<AddProduct />} />
 									</Route>
