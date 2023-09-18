@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -37,8 +37,13 @@ import CustomerProducts from './pagesCustomer/CustomerProducts';
 function App() {
 	const [theme, colorMode] = useMode();
 	const [isSidebar, setIsSidebar] = useState(true);
-	const { auth } = useAuth();
-	console.log(auth);
+	const { auth, setAuth } = useAuth();
+
+	useEffect(() => {
+		const authObj = JSON.parse(localStorage.getItem('auth'));
+		if (authObj) setAuth(authObj.member);
+	}, []);
+
 	return (
 		<ColorModeContext.Provider value={colorMode}>
 			<LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -73,7 +78,7 @@ function App() {
 						</div>
 					) : auth?.role === 'customer' ? (
 						<Routes>
-							<Route path="/" element={<CustomerProducts />} />
+							<Route path="/auctions" element={<CustomerProducts />} />
 							<Route path="/signin" element={<SignIn />} />
 							<Route path="/signup" element={<SignUp />} />
 							<Route path="/about" element={<AboutPage />} />

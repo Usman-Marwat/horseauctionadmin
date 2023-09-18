@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { PiDotsNineBold } from 'react-icons/pi';
 
 import './Navbar.css';
 import logo from '../../../assets/homeImage.png';
+import useAuth from '../../../hooks/useAuth';
 
 function Navbar() {
 	const [navbar, setNavbar] = useState('navbar');
 	const [header, setHeader] = useState('header');
-	const navigate = useNavigate();
+	const { auth } = useAuth();
 
 	const showNavbar = () => setNavbar('navbar showNavbar');
 	const removeNavbar = () => setNavbar('navbar');
@@ -31,6 +32,13 @@ function Navbar() {
 
 			<div className={navbar}>
 				<ul className="menu">
+					{auth.role && (
+						<li className="listItem" onClick={removeNavbar}>
+							<Link className="link" to="/auctions">
+								Auctions
+							</Link>
+						</li>
+					)}
 					<li className="listItem" onClick={removeNavbar}>
 						<Link className="link" to="/about">
 							About Us
@@ -46,9 +54,7 @@ function Navbar() {
 							Products
 						</Link>
 					</li>
-					<li className="listItem" onClick={removeNavbar}>
-						<a className="link">Merchant</a>
-					</li>
+
 					<li className="listItem" onClick={removeNavbar}>
 						<Link className="link" to="/contact">
 							Contact

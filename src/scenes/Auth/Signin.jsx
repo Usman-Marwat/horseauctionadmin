@@ -24,6 +24,7 @@ const baseURL = import.meta.env.VITE_REACT_APP_BASE_URL;
 
 export default function SignIn() {
 	const [error, setError] = useState();
+	const [checked, setChecked] = useState(true);
 	const { setAuth } = useAuth();
 	const navigate = useNavigate();
 
@@ -32,7 +33,9 @@ export default function SignIn() {
 			axios.post(`${baseURL}auth/signin`, member).then((res) => res.data),
 		onSuccess: ({ member, token }) => {
 			setAuth(member);
-			navigate('/', { replace: true });
+			if (checked)
+				localStorage.setItem('auth', JSON.stringify({ member, token }));
+			navigate('/auctions', { replace: true });
 		},
 		onError: ({ response }) => {
 			// setError(response.data);
@@ -120,7 +123,14 @@ export default function SignIn() {
 								helperText={touched.password && errors.password}
 							/>
 							<FormControlLabel
-								control={<Checkbox value="remember" color="primary" />}
+								control={
+									<Checkbox
+										value="remember"
+										color="primary"
+										checked={checked}
+										onChange={() => setChecked(!checked)}
+									/>
+								}
 								label="Remember me"
 							/>
 							<Button
