@@ -4,7 +4,7 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import { PiDotsNineBold } from 'react-icons/pi';
 
 import './Navbar.css';
-import logo from '../../../assets/logo.jpg';
+import logo from '../../../assets/homeImage.png';
 
 function Navbar() {
 	const [navbar, setNavbar] = useState('navbar');

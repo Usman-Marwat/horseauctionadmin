@@ -95,7 +95,7 @@ export default function SignUp() {
 					severity="success"
 					sx={{ width: '100%' }}
 				>
-					<Typography>User is successfully Created!</Typography>
+					<Typography>You have successfully registered!</Typography>
 				</Alert>
 			</Snackbar>
 

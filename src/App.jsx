@@ -61,10 +61,10 @@ function App() {
 									<Route path="/signup" element={<SignUp />} />
 
 									{/*Protected Routes*/}
-									{/* <Route element={<RequireAuth allowedRoles={[2001]} />}> */}
-									<Route path="/products" element={<Products />} />
-									<Route path="/addProduct" element={<AddProduct />} />
-									{/* </Route> */}
+									<Route element={<RequireAuth allowedRoles={[2001]} />}>
+										<Route path="/products" element={<Products />} />
+										<Route path="/addProduct" element={<AddProduct />} />
+									</Route>
 
 									{/*Catch all*/}
 									<Route path="*" element={<Missing />} />
@@ -73,9 +73,14 @@ function App() {
 						</div>
 					) : auth?.role === 'customer' ? (
 						<Routes>
-							<Route path="/signin" element={<CustomerProducts />} />
-							{/* <Route path="/signin" element={<SignIn />} /> */}
-							{/* <Route path="/signup" element={<SignUp />} /> */}
+							<Route path="/" element={<CustomerProducts />} />
+							<Route path="/signin" element={<SignIn />} />
+							<Route path="/signup" element={<SignUp />} />
+							<Route path="/about" element={<AboutPage />} />
+							<Route path="/blog" element={<BlogPage />} />
+							<Route path="/products" element={<ProductsPage />} />
+							<Route path="/contact" element={<ContactPage />} />
+							<Route path="*" element={<Missing />} />
 						</Routes>
 					) : (
 						<Routes>

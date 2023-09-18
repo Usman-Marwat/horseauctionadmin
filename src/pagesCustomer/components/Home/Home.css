@@ -50,7 +50,7 @@
 	color: var(--whiteColor);
 }
 .secContainer .homeText .btns .btn:nth-child(2):hover {
-	background: var(--whiteColor);
+	background: var(--secondaryColor);
 	color: var(--textColor);
 }
 

@@ -38,7 +38,7 @@ const CustomerProducts = () => {
 	return (
 		<>
 			<Navbar />
-			<Box m="1.5rem 2.5rem">
+			<Box p="1.5rem 2.5rem" paddingTop={'120px'}>
 				<Header title="Auctions Available" su btitle="See your list of Bids" />
 				<Box sx={{ marginTop: 1 }}></Box>
 
@@ -142,6 +142,7 @@ const Product = ({ item }) => {
 				<Typography variant="body2">Sex: {item.sex}</Typography>
 				<Typography variant="body2">Start Time: {item.startTime}</Typography>
 			</CardContent>
+
 			<CardActions>
 				<Button
 					variant="primary"
@@ -151,6 +152,7 @@ const Product = ({ item }) => {
 					See More
 				</Button>
 			</CardActions>
+
 			<Collapse
 				in={isExpanded}
 				timeout="auto"

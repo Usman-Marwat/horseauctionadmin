@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Backdrop, CircularProgress } from '@mui/material';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -25,12 +25,14 @@ const baseURL = import.meta.env.VITE_REACT_APP_BASE_URL;
 export default function SignIn() {
 	const [error, setError] = useState();
 	const { setAuth } = useAuth();
+	const navigate = useNavigate();
 
 	const loginApi = useMutation({
 		mutationFn: (member) =>
 			axios.post(`${baseURL}auth/signin`, member).then((res) => res.data),
 		onSuccess: ({ member, token }) => {
 			setAuth(member);
+			navigate('/', { replace: true });
 		},
 		onError: ({ response }) => {
 			// setError(response.data);
@@ -46,8 +48,7 @@ export default function SignIn() {
 		<Container component="main" maxWidth="xs">
 			<Backdrop
 				sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				// open={loginApi.isLoading}
-				open={false}
+				open={loginApi.isLoading}
 			>
 				<CircularProgress color="inherit" />
 			</Backdrop>

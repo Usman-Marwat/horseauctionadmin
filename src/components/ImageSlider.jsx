@@ -27,7 +27,7 @@ export default function Example({ imageUrls }) {
 								height: '100%',
 								width: '100%',
 								borderRadius: 1,
-								objectFit: 'contain',
+								objectFit: 'cover',
 							}}
 						/>
 					</Box>

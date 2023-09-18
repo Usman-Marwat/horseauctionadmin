@@ -9,10 +9,12 @@
 	box-shadow: 0 4px 6px rgb(237, 237, 237);
 	z-index: 100;
 	/* background: var(--secondaryColor); */
-	background: #fff;
+	/* background: #fff; */
+	background: linear-gradient(#89e7cc, var(--secondaryColor));
+	height: 90px;
 }
 .header .logoDiv .logo {
-	width: 70px;
+	width: 60px;
 }
 .header .logoDiv span {
 	color: #434344;
@@ -99,6 +101,7 @@
 
 .addBg {
 	background: #fff;
+	background: linear-gradient(#89e7cc, var(--secondaryColor));
 }
 
 @media screen and (min-width: 520px) {
@@ -106,7 +109,7 @@
 		padding: 0.5rem 1rem;
 	}
 	.header .logoDiv .logo {
-		width: 100px;
+		width: 70px;
 	}
 	.header .signUp .text {
 		padding: 6px;
