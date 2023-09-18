@@ -22,6 +22,7 @@
 .header .logoDiv:hover {
 	cursor: pointer;
 }
+
 @media screen and (max-width: 768px) {
 	.header .navbar {
 		position: absolute;
@@ -87,6 +88,18 @@
 .header .signUp .text:hover {
 	background: var(--secondaryColor);
 	color: var(--blackColor);
+}
+.header .signUp .signin {
+	padding: 3px 10px;
+	border-radius: 3px;
+	background: transparent;
+	color: var(--blackColor);
+	cursor: pointer;
+	font-size: 14px;
+}
+.header .signUp .signin:hover {
+	background: var(--primaryColor);
+	color: var(--whiteColor);
 }
 .header .signUp .toggleNavbarIcon {
 	background: none;
