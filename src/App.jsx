@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import {
+	Backdrop,
+	CircularProgress,
+	CssBaseline,
+	ThemeProvider,
+} from '@mui/material';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -37,12 +42,29 @@ import CustomerProducts from './pagesCustomer/CustomerProducts';
 function App() {
 	const [theme, colorMode] = useMode();
 	const [isSidebar, setIsSidebar] = useState(true);
+	const [loading, setLoading] = useState(true);
 	const { auth, setAuth } = useAuth();
 
 	useEffect(() => {
 		const authObj = JSON.parse(localStorage.getItem('auth'));
 		if (authObj) setAuth(authObj.member);
+
+		setTimeout(() => setLoading(false), 500);
 	}, []);
+
+	if (loading)
+		return (
+			<Backdrop
+				sx={{
+					flex: 1,
+					color: '#fff',
+					zIndex: (theme) => theme.zIndex.drawer + 1,
+				}}
+				open={true}
+			>
+				<CircularProgress color="inherit" />
+			</Backdrop>
+		);
 
 	return (
 		<ColorModeContext.Provider value={colorMode}>

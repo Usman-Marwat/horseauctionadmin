@@ -128,7 +128,7 @@ function Navbar() {
 	);
 }
 
-const LogoutDialog = ({ open, setOpen, onLogout }) => {
+export const LogoutDialog = ({ open, setOpen, onLogout }) => {
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 

@@ -35,7 +35,9 @@ export default function SignIn() {
 			setAuth(member);
 			if (checked)
 				localStorage.setItem('auth', JSON.stringify({ member, token }));
-			navigate('/auctions', { replace: true });
+			if (member.role === 'customer')
+				return navigate('/auctions', { replace: true });
+			navigate('/', { replace: true });
 		},
 		onError: ({ response }) => {
 			// setError(response.data);

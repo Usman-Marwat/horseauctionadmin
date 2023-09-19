@@ -310,9 +310,11 @@ const FixedAuction = ({ item }) => {
 				</Collapse>
 			</Card>
 
-			<Box position="absolute">
-				<BidsDialogue open={open} setOpen={setOpen} item={item} />
-			</Box>
+			{open && (
+				<Box position="absolute">
+					<BidsDialogue open={open} setOpen={setOpen} item={item} />
+				</Box>
+			)}
 		</>
 	);
 };
@@ -419,7 +421,11 @@ const RealtimeAuction = ({ item }) => {
 				</CardContent>
 
 				<Box display="flex" justifyContent="flex-end" paddingRight={3}>
-					<Badge badgeContent={4} color="primary" sx={{ cursor: 'pointer' }}>
+					<Badge
+						badgeContent={item.bids ? item.bids.length : 0}
+						color="primary"
+						sx={{ cursor: 'pointer' }}
+					>
 						<Box
 							component="img"
 							src={bidImage}
@@ -454,9 +460,11 @@ const RealtimeAuction = ({ item }) => {
 				</Collapse>
 			</Card>
 
-			<Box position="absolute">
-				<BidsDialogue open={open} setOpen={setOpen} />
-			</Box>
+			{open && (
+				<Box position="absolute">
+					<BidsDialogue open={open} setOpen={setOpen} item={item} />
+				</Box>
+			)}
 		</>
 	);
 };
@@ -481,6 +489,8 @@ const BidsDialogue = ({ open, setOpen, item }) => {
 			axios.post(`${baseUrl}auction/bid`, bid).then((res) => res.data),
 		onSuccess: (savedBid, sentAuction) => {
 			queryClient.invalidateQueries({ queryKey: ['bids'] });
+			queryClient.invalidateQueries({ queryKey: ['fixed'] });
+			queryClient.invalidateQueries({ queryKey: ['realtime'] });
 		},
 	});
 
@@ -514,7 +524,7 @@ const BidsDialogue = ({ open, setOpen, item }) => {
 				aria-describedby="scroll-dialog-description"
 			>
 				<DialogTitle id="scroll-dialog-title">
-					{item.horseTitle} (7 bids)
+					{item.horseTitle} ({bidsGetApi?.data?.length} bids)
 				</DialogTitle>
 
 				{(bidAddApi.isLoading || bidsGetApi.isLoading) && (

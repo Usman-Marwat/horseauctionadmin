@@ -51,8 +51,10 @@ const Products = () => {
 			<Box sx={{ marginTop: 1 }}>
 				<Link to={'/addProduct'} style={{ textDecoration: 'none' }}>
 					<Button type="submit" color="secondary" variant="contained">
-						<Typography mr="0.7rem">Create Auction</Typography>{' '}
-						<AddCircle color="white" />
+						<Typography color="white" mr="0.7rem">
+							Create Auction
+						</Typography>
+						<AddCircle />
 					</Button>
 				</Link>
 			</Box>
