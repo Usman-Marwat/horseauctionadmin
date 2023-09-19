@@ -78,6 +78,7 @@ function App() {
 						</div>
 					) : auth?.role === 'customer' ? (
 						<Routes>
+							<Route path="/" element={<Navigate to="/auctions" replace />} />
 							<Route path="/auctions" element={<CustomerProducts />} />
 							<Route path="/signin" element={<SignIn />} />
 							<Route path="/signup" element={<SignUp />} />
