@@ -24,6 +24,12 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import { MuiFileInput } from 'mui-file-input';
+import Autocomplete from '@mui/material/Autocomplete';
+import countriesList from '../../data/countriesList';
+import ReactPhoneInput from 'react-phone-input-material-ui';
+import { uploadImagesToCloudinary } from '../../config/cloudinary';
+import useAuth from '../../hooks/useAuth';
 
 const baseURL = import.meta.env.VITE_REACT_APP_BASE_URL;
 
@@ -32,7 +38,10 @@ export default function SignUp() {
 	const [error, setError] = useState();
 	const [formData, setFormData] = useState({});
 	const [isSuccessSnack, setSuccessSnack] = useState(false);
+	const [countryCode, setCountryCode] = useState();
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
+	const { setAuth } = useAuth();
 
 	const otpApi = useMutation({
 		mutationFn: (email) =>
@@ -52,6 +61,7 @@ export default function SignUp() {
 			axios.post(`${baseURL}auth/signup`, member).then((res) => res.data),
 		onSuccess: (savedMember) => {
 			console.log(savedMember);
+			loginApi.mutate(formData);
 			setSuccessSnack(true);
 		},
 		onError: ({ response }) => {
@@ -59,14 +69,39 @@ export default function SignUp() {
 		},
 	});
 
-	const handleSignUp = (otp) => {
-		registerApi.mutate({ ...formData, otp, role: 'customer' });
-		if (!registerApi.isError) navigate('/signin');
+	const loginApi = useMutation({
+		mutationFn: (member) =>
+			axios.post(`${baseURL}auth/signin`, member).then((res) => res.data),
+		onSuccess: ({ member, token }) => {
+			setAuth(member);
+			localStorage.setItem('auth', JSON.stringify({ member, token }));
+
+			if (member.role === 'customer')
+				return navigate('/auctions', { replace: true });
+			navigate('/', { replace: true });
+		},
+	});
+
+	const handleSignUp = async (otp) => {
+		setLoading(true);
+		try {
+			const images = await uploadImagesToCloudinary(formData.imagesFiles);
+			registerApi.mutate({
+				...formData,
+				otp,
+				role: 'customer',
+				idCardImages: images,
+			});
+			setLoading(false);
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		}
 	};
 
 	const handleFormSubmit = async (values, { resetForm }) => {
 		otpApi.mutate({ email: values.email });
-		setFormData({ ...values });
+		setFormData({ ...values, mobileNumber: `+${values.mobileNumber}` });
 
 		if (!otpApi.isError) resetForm();
 	};
@@ -80,7 +115,7 @@ export default function SignUp() {
 		<Container component="main" maxWidth="xs">
 			<Backdrop
 				sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				open={otpApi.isLoading || registerApi.isLoading}
+				open={otpApi.isLoading || registerApi.isLoading || loading}
 			>
 				<CircularProgress color="inherit" />
 			</Backdrop>
@@ -128,6 +163,7 @@ export default function SignUp() {
 						handleBlur,
 						handleChange,
 						handleSubmit,
+						setFieldValue,
 					}) => (
 						<Box
 							component="form"
@@ -138,35 +174,115 @@ export default function SignUp() {
 							<Grid container spacing={2}>
 								<Grid item xs={12} sm={6}>
 									<TextField
-										autoComplete="given-name"
-										name="firstName"
 										fullWidth
-										label="First Name"
+										name="displayName"
+										label="Display Name (Alias)"
 										autoFocus
 										onBlur={handleBlur}
 										onChange={handleChange}
-										value={values.firstName}
-										error={!!touched.firstName && !!errors.firstName}
-										helperText={touched.firstName && errors.firstName}
+										value={values.displayName}
+										error={!!touched.displayName && !!errors.displayName}
+										helperText={touched.displayName && errors.displayName}
 									/>
 								</Grid>
 								<Grid item xs={12} sm={6}>
 									<TextField
 										fullWidth
-										label="Last Name"
-										name="lastName"
-										autoComplete="family-name"
+										name="legalName"
+										label="Legal Name"
 										onBlur={handleBlur}
 										onChange={handleChange}
-										value={values.lastName}
-										error={!!touched.lastName && !!errors.lastName}
-										helperText={touched.lastName && errors.lastName}
+										value={values.legalName}
+										error={!!touched.legalName && !!errors.legalName}
+										helperText={touched.legalName && errors.legalName}
+									/>
+								</Grid>
+
+								<Grid item xs={12}>
+									<Autocomplete
+										fullWidth
+										options={countriesList}
+										onChange={(_, country) => {
+											if (country?.code) {
+												setCountryCode(country.code.toLowerCase());
+												setFieldValue('country', country.label, true);
+											}
+										}}
+										getOptionLabel={(option) =>
+											`${option.flag} ${option.label} (${option.code}) ${option.phone}`
+										}
+										renderInput={(params) => (
+											<TextField
+												{...params}
+												name="country"
+												label="Country"
+												onBlur={handleBlur}
+												value={values.country}
+												error={!!touched.country && !!errors.country}
+												helperText={touched.country && errors.country}
+											/>
+										)}
 									/>
 								</Grid>
 								<Grid item xs={12}>
+									<ReactPhoneInput
+										placeholder="+92 317 12345678"
+										country={countryCode}
+										value={values.mobileNumber}
+										onChange={(val) => setFieldValue('mobileNumber', val, true)}
+										inputProps={{
+											onBlur: handleBlur,
+											name: 'mobileNumber',
+											error: !!touched.mobileNumber && !!errors.mobileNumber,
+											helperText: touched.mobileNumber && errors.mobileNumber,
+										}}
+										component={TextField}
+									/>
+								</Grid>
+
+								<Grid item xs={12}>
 									<TextField
+										name="address"
 										fullWidth
+										label="Address"
+										onBlur={handleBlur}
+										onChange={handleChange}
+										value={values.address}
+										error={!!touched.address && !!errors.address}
+										helperText={touched.address && errors.address}
+									/>
+								</Grid>
+								<Grid item xs={12} sm={6}>
+									<TextField
+										label="ID card #"
+										fullWidth
+										name="idCardNo"
+										onBlur={handleBlur}
+										onChange={handleChange}
+										value={values.idCardNo}
+										error={!!touched.idCardNo && !!errors.idCardNo}
+										helperText={touched.idCardNo && errors.idCardNo}
+									/>
+								</Grid>
+								<Grid item xs={12} sm={6}>
+									<MuiFileInput
+										fullWidth
+										multiple
+										placeholder="ID card image(s)"
+										error={!!touched.imagesFiles && !!errors.imagesFiles}
+										helperText={touched.imagesFiles && errors.imagesFiles}
+										value={values.imagesFiles}
+										inputProps={{ accept: 'image/*' }}
+										onChange={(value) =>
+											setFieldValue('imagesFiles', value, true)
+										}
+									/>
+								</Grid>
+
+								<Grid item xs={12}>
+									<TextField
 										label="Email Address"
+										fullWidth
 										name="email"
 										autoComplete="email"
 										onBlur={handleBlur}
@@ -178,8 +294,8 @@ export default function SignUp() {
 								</Grid>
 								<Grid item xs={12}>
 									<TextField
-										fullWidth
 										name="password"
+										fullWidth
 										label="Password"
 										type="password"
 										autoComplete="new-password"
@@ -190,6 +306,7 @@ export default function SignUp() {
 										helperText={touched.password && errors.password}
 									/>
 								</Grid>
+
 								<Grid item xs={12}>
 									<FormControlLabel
 										control={
@@ -331,15 +448,25 @@ function Copyright(props) {
 }
 
 const validationSchema = yup.object().shape({
-	firstName: yup.string().required().label('First name'),
-	lastName: yup.string().required().label('Last name'),
+	displayName: yup.string().required().label('First name'),
+	legalName: yup.string().required().label('Legal name'),
+	country: yup.string().required().label('Country'),
+	mobileNumber: yup.string().required().label('Mobile number'),
+	address: yup.string().required().label('Address'),
+	idCardNo: yup.string().required().label('ID Card No'),
+	imagesFiles: yup.array().min(1, 'Please select atleast 1 image'),
 	email: yup.string().required().label('Email'),
 	password: yup.string().required().label('Password'),
 });
 
 const initialValues = {
-	firstName: '',
-	lastName: '',
+	displayName: '',
+	legalName: '',
+	country: '',
+	mobileNumber: '',
+	address: '',
+	idCardNo: '',
+	imagesFiles: [],
 	email: '',
 	password: '',
 };

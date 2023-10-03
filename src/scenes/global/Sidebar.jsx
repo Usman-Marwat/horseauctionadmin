@@ -177,8 +177,8 @@ const SideMenu = () => {
 						/>
 						<Item
 							// title="Calendar"
-							title="Transaction"
-							to="/calendar"
+							title="Sellers"
+							to="/sellers"
 							icon={<CalendarTodayOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}

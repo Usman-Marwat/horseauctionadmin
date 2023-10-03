@@ -93,6 +93,12 @@ function Navbar() {
 							Contact
 						</Link>
 					</li>
+
+					<li className="listItem" onClick={removeNavbar}>
+						<Link className="link" to="/auctionRequest">
+							Auction Request
+						</Link>
+					</li>
 				</ul>
 				<AiFillCloseCircle className="icon closeIcon" onClick={removeNavbar} />
 			</div>

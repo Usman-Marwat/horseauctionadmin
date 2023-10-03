@@ -33,10 +33,9 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from '@mui/icons-material';
+import { uploadImagesToCloudinary } from '../../config/cloudinary';
 
 const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
-const cloudName = import.meta.env.VITE_CLOUD_NAME;
-const cloudPreset = import.meta.env.VITE_PRESET;
 
 export default () => {
 	const isNonMobile = useMediaQuery('(min-width:600px)');
@@ -87,35 +86,6 @@ const TabViews = ({ isNonMobile }) => {
 	);
 };
 
-const uploadToCloudinary = async (values) => {
-	const imageUrls = [];
-
-	for (const file of values.imagesFiles) {
-		const formData = new FormData();
-		formData.append('file', file);
-		formData.append('upload_preset', cloudPreset);
-
-		try {
-			const response = await fetch(
-				`https://api.cloudinary.com/v1_1/${cloudName}/upload/`,
-				{
-					method: 'POST',
-					body: formData,
-				}
-			);
-
-			if (response.ok) {
-				const data = await response.json();
-				imageUrls.push(data.secure_url);
-			} else console.error('Image upload failed.');
-		} catch (error) {
-			console.error('Error uploading image:', error);
-		}
-	}
-
-	return imageUrls;
-};
-
 const FixedPriceAuction = ({ isNonMobile }) => {
 	const [isSuccessSnack, setSuccessSnack] = useState(false);
 	const [errorSnack, setErrorSnack] = useState(true);
@@ -138,9 +108,13 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 
 	const handleFormSubmit = async (values, { resetForm }) => {
 		setLoading(true);
-		const images = await uploadToCloudinary({ ...values });
-		addAuction.mutate({ type: 'Fixed', ...values, images });
-		setLoading(false);
+		try {
+			const images = await uploadImagesToCloudinary(values.imagesFiles);
+			addAuction.mutate({ type: 'Fixed', ...values, images });
+			setLoading(false);
+		} catch (error) {
+			console.log(error);
+		}
 
 		if (!addAuction.isError) resetForm();
 	};
@@ -489,7 +463,6 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 const RealTimeAuction = ({ isNonMobile }) => {
 	const [isSuccessSnack, setSuccessSnack] = useState(false);
 	const [errorSnack, setErrorSnack] = useState(true);
-	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 
 	const handleSnackBarClose = (event, reason) => {
@@ -507,19 +480,20 @@ const RealTimeAuction = ({ isNonMobile }) => {
 	});
 
 	const handleFormSubmit = async (values, { resetForm }) => {
-		setLoading(true);
-		const images = await uploadToCloudinary({ ...values });
-		addAuction.mutate({ type: 'Realtime', ...values, images });
-		setLoading(false);
-
-		if (!addAuction.isError) resetForm();
+		try {
+			const images = await uploadImagesToCloudinary(values.imagesFiles);
+			addAuction.mutate({ type: 'Realtime', ...values, images });
+			resetForm();
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
 		<>
 			<Backdrop
 				sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				open={addAuction.isLoading || loading}
+				open={addAuction.isLoading}
 			>
 				<CircularProgress color="inherit" />
 			</Backdrop>

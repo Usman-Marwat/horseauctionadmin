@@ -13,6 +13,7 @@ import Topbar from './scenes/global/Topbar';
 import Sidebar from './scenes/global/Sidebar';
 import Dashboard from './scenes/dashboard';
 import Team from './scenes/team';
+import Sellers from './scenes/Sellers';
 import Invoices from './scenes/invoices';
 // import Contacts from './scenes/contacts';
 // import Bar from './scenes/bar';
@@ -38,6 +39,7 @@ import ContactPage from './pagesCustomer/ContactPage';
 import './App.css';
 import useAuth from './hooks/useAuth';
 import CustomerProducts from './pagesCustomer/CustomerProducts';
+import AuctionRequest from './pagesCustomer/AuctionRequest';
 
 function App() {
 	const [theme, colorMode] = useMode();
@@ -81,6 +83,7 @@ function App() {
 									{/*Admin */}
 									<Route path="/" element={<Dashboard />} />
 									<Route path="/team" element={<Team />} />
+									<Route path="/sellers" element={<Sellers />} />
 									<Route path="/faq" element={<FAQ />} />
 									<Route path="/invoices" element={<Invoices />} />
 
@@ -108,6 +111,7 @@ function App() {
 							<Route path="/blog" element={<BlogPage />} />
 							<Route path="/products" element={<ProductsPage />} />
 							<Route path="/contact" element={<ContactPage />} />
+							<Route path="/auctionRequest" element={<AuctionRequest />} />
 							<Route path="*" element={<Missing />} />
 						</Routes>
 					) : (
