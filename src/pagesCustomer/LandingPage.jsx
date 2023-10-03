@@ -15,16 +15,18 @@ function LandingPage() {
 		<>
 			<Navbar />
 
-			<Home />
-			<Sellers />
+			<AnimatedBox>
+				<Home />
+				<Sellers />
 
-			{/* <Search /> */}
-			<Trending />
-			{/* <Auction /> */}
-			<Middle />
-			<Questions />
-			<Review />
-			<Footer />
+				{/* <Search /> */}
+				<Trending />
+				{/* <Auction /> */}
+				<Middle />
+				<Questions />
+				<Review />
+				<Footer />
+			</AnimatedBox>
 		</>
 	);
 }

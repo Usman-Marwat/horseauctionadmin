@@ -457,7 +457,7 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 const RealTimeAuction = ({ isNonMobile }) => {
 	const [isSuccessSnack, setSuccessSnack] = useState(false);
 	const [errorSnack, setErrorSnack] = useState(true);
-	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
 
 	const handleSnackBarClose = (event, reason) => {
 		if (reason === 'clickaway') return;
@@ -474,12 +474,15 @@ const RealTimeAuction = ({ isNonMobile }) => {
 	});
 
 	const handleFormSubmit = async (values, { resetForm }) => {
+		setLoading(true);
 		try {
 			const images = await uploadImagesToCloudinary(values.imagesFiles);
 			addAuction.mutate({ type: 'Realtime', ...values, images });
 			resetForm();
+			setLoading(false);
 		} catch (error) {
 			console.log(error);
+			setLoading(false);
 		}
 	};
 
