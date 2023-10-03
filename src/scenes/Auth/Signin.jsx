@@ -17,6 +17,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
+import AnimatedBox from '../../components/AnimatedBox';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 

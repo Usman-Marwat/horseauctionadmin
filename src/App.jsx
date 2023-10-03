@@ -5,7 +5,7 @@ import {
 	CssBaseline,
 	ThemeProvider,
 } from '@mui/material';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
@@ -40,6 +40,7 @@ import './App.css';
 import useAuth from './hooks/useAuth';
 import CustomerProducts from './pagesCustomer/CustomerProducts';
 import AuctionRequest from './pagesCustomer/AuctionRequest';
+import { AnimatePresence } from 'framer-motion';
 
 function App() {
 	const [theme, colorMode] = useMode();
@@ -79,52 +80,13 @@ function App() {
 							<Sidebar isSidebar={isSidebar} />
 							<main className="content">
 								<Topbar setIsSidebar={setIsSidebar} />
-								<Routes>
-									{/*Admin */}
-									<Route path="/" element={<Dashboard />} />
-									<Route path="/team" element={<Team />} />
-									<Route path="/sellers" element={<Sellers />} />
-									<Route path="/faq" element={<FAQ />} />
-									<Route path="/invoices" element={<Invoices />} />
-
-									<Route path="/signin" element={<SignIn />} />
-									<Route path="/signup" element={<SignUp />} />
-
-									{/*Protected Routes*/}
-									<Route element={<RequireAuth allowedRoles={[2001]} />}>
-										<Route path="/products" element={<Products />} />
-										<Route path="/addProduct" element={<AddProduct />} />
-									</Route>
-
-									{/*Catch all*/}
-									<Route path="*" element={<Missing />} />
-								</Routes>
+								<AnimatedAdminRoutes />
 							</main>
 						</div>
 					) : auth?.role === 'customer' ? (
-						<Routes>
-							<Route path="/" element={<Navigate to="/auctions" replace />} />
-							<Route path="/auctions" element={<CustomerProducts />} />
-							<Route path="/signin" element={<SignIn />} />
-							<Route path="/signup" element={<SignUp />} />
-							<Route path="/about" element={<AboutPage />} />
-							<Route path="/blog" element={<BlogPage />} />
-							<Route path="/products" element={<ProductsPage />} />
-							<Route path="/contact" element={<ContactPage />} />
-							<Route path="/auctionRequest" element={<AuctionRequest />} />
-							<Route path="*" element={<Missing />} />
-						</Routes>
+						<AnimatedCustomerRoutes />
 					) : (
-						<Routes>
-							<Route path="/" element={<LandingPage />} />
-							<Route path="/signin" element={<SignIn />} />
-							<Route path="/signup" element={<SignUp />} />
-							<Route path="/about" element={<AboutPage />} />
-							<Route path="/blog" element={<BlogPage />} />
-							<Route path="/products" element={<ProductsPage />} />
-							<Route path="/contact" element={<ContactPage />} />
-							<Route path="*" element={<Missing />} />
-						</Routes>
+						<AnimatedGeneralRoutes />
 					)}
 				</ThemeProvider>
 			</LocalizationProvider>
@@ -133,3 +95,68 @@ function App() {
 }
 
 export default App;
+
+const AnimatedAdminRoutes = () => {
+	const location = useLocation();
+
+	return (
+		<AnimatePresence mode="wait">
+			<Routes location={location} key={location.pathname}>
+				{/*Admin */}
+				<Route path="/" element={<Dashboard />} />
+				<Route path="/team" element={<Team />} />
+				<Route path="/sellers" element={<Sellers />} />
+				<Route path="/faq" element={<FAQ />} />
+				<Route path="/invoices" element={<Invoices />} />
+
+				<Route path="/signin" element={<SignIn />} />
+				<Route path="/signup" element={<SignUp />} />
+
+				{/*Protected Routes*/}
+				<Route element={<RequireAuth allowedRoles={[2001]} />}>
+					<Route path="/products" element={<Products />} />
+					<Route path="/addProduct" element={<AddProduct />} />
+				</Route>
+
+				{/*Catch all*/}
+				<Route path="*" element={<Missing />} />
+			</Routes>
+		</AnimatePresence>
+	);
+};
+
+const AnimatedCustomerRoutes = () => {
+	const location = useLocation();
+
+	return (
+		<AnimatePresence mode="popLayout">
+			<Routes location={location} key={location.pathname}>
+				<Route path="/" element={<Navigate to="/auctions" replace />} />
+				<Route path="/auctions" element={<CustomerProducts />} />
+				<Route path="/signin" element={<SignIn />} />
+				<Route path="/signup" element={<SignUp />} />
+				<Route path="/about" element={<AboutPage />} />
+				<Route path="/blog" element={<BlogPage />} />
+				<Route path="/products" element={<ProductsPage />} />
+				<Route path="/contact" element={<ContactPage />} />
+				<Route path="/auctionRequest" element={<AuctionRequest />} />
+				<Route path="*" element={<Missing />} />
+			</Routes>
+		</AnimatePresence>
+	);
+};
+
+const AnimatedGeneralRoutes = () => {
+	return (
+		<Routes mode="wait">
+			<Route path="/" element={<LandingPage />} />
+			<Route path="/signin" element={<SignIn />} />
+			<Route path="/signup" element={<SignUp />} />
+			<Route path="/about" element={<AboutPage />} />
+			<Route path="/blog" element={<BlogPage />} />
+			<Route path="/products" element={<ProductsPage />} />
+			<Route path="/contact" element={<ContactPage />} />
+			<Route path="*" element={<Missing />} />
+		</Routes>
+	);
+};

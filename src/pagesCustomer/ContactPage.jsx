@@ -8,17 +8,20 @@ import Questions from './components/Questions/Questions';
 import { ImLocation } from 'react-icons/im';
 import { BiEnvelope } from 'react-icons/bi';
 import { PiPhone } from 'react-icons/pi';
+import AnimatedBox from '../components/AnimatedBox';
 
 const ContactPage = () => {
 	return (
-		<div>
+		<>
 			<Navbar />
-			<Home contact />
+			<AnimatedBox>
+				<Home contact />
 
-			<Questions />
-			<GetInTouch />
-			<Footer />
-		</div>
+				<Questions />
+				<GetInTouch />
+				<Footer />
+			</AnimatedBox>
+		</>
 	);
 };
 

@@ -30,6 +30,7 @@ import countriesList from '../../data/countriesList';
 import ReactPhoneInput from 'react-phone-input-material-ui';
 import { uploadImagesToCloudinary } from '../../config/cloudinary';
 import useAuth from '../../hooks/useAuth';
+import AnimatedBox from '../../components/AnimatedBox';
 
 const baseURL = import.meta.env.VITE_REACT_APP_BASE_URL;
 

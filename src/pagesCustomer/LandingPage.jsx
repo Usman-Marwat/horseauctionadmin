@@ -8,11 +8,13 @@ import Middle from './components/Middle/Middle';
 import Questions from './components/Questions/Questions';
 import Review from './components/Review/Review';
 import Footer from './components/Footer/Footer';
+import AnimatedBox from '../components/AnimatedBox';
 
 function LandingPage() {
 	return (
-		<div>
+		<>
 			<Navbar />
+
 			<Home />
 			<Sellers />
 
@@ -23,7 +25,7 @@ function LandingPage() {
 			<Questions />
 			<Review />
 			<Footer />
-		</div>
+		</>
 	);
 }
 

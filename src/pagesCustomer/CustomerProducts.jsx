@@ -41,6 +41,7 @@ import Navbar from './components/Navbar/Navbar';
 import bidImage from '../assets/bid2.png';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import useAuth from '../hooks/useAuth';
+import AnimatedBox from '../components/AnimatedBox';
 
 const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
 // const baseUrl = 'https://erin-impossible-donkey.cyclic.app/';
@@ -49,10 +50,13 @@ export default () => {
 	return (
 		<>
 			<Navbar />
-			<Header title="Auctions Available" su btitle="See your list of Bids" />
-			<Box p="1.5rem 2.5rem" paddingTop={'50px'}>
-				<TabViews />
-			</Box>
+
+			<AnimatedBox>
+				<Header title="Auctions Available" su btitle="See your list of Bids" />
+				<Box p="1.5rem 2.5rem" paddingTop={'50px'}>
+					<TabViews />
+				</Box>
+			</AnimatedBox>
 		</>
 	);
 };
