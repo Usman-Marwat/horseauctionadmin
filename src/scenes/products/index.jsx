@@ -38,14 +38,27 @@ const Products = () => {
 	const [selected, setSelected] = useState();
 	const { eventId } = useParams();
 
+	const eventApi = useQuery({
+		queryKey: ['event'],
+		queryFn: () =>
+			axios.get(`${baseUrl}event/${eventId}`).then((res) => res.data),
+	});
+
 	const { data, isLoading } = useQuery({
 		queryKey: ['products'],
-		queryFn: () => axios.get(`${baseUrl}auction`).then((res) => res.data),
+		queryFn: () =>
+			axios
+				.get(`${baseUrl}auction`, { params: { eventId } })
+				.then((res) => res.data),
 	});
 
 	return (
 		<Box m="1.5rem 2.5rem">
-			<Header title="Auctions" su btitle="See your list of Bids" />
+			<Header
+				title={eventApi.data?.eventTitle + ' Event'}
+				su
+				btitle="See your list of Bids"
+			/>
 			<Box sx={{ marginTop: 1 }}>
 				<Link to={`/addProduct/${eventId}`} style={{ textDecoration: 'none' }}>
 					<Button type="submit" color="secondary" variant="contained">
@@ -94,6 +107,11 @@ const Products = () => {
 						'& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
 					}}
 				>
+					{data.length === 0 && (
+						<Typography fontSize={17}>
+							No auctions added for the event
+						</Typography>
+					)}
 					{data.map((product) => (
 						<Product
 							key={product._id}
@@ -187,16 +205,3 @@ const Product = ({ item, onSelect }) => {
 };
 
 export default Products;
-
-const styles = {
-	button: {
-		width: 20,
-		height: 60,
-		borderRadius: '50%',
-	},
-	couponBox: {
-		marginTop: 3,
-		marginBottom: 7,
-		display: 'flex',
-	},
-};

@@ -228,6 +228,7 @@ const EventForm = ({ isNonMobile }) => {
 								/>
 
 								<MuiFileInput
+									multiple
 									placeholder="Add Images"
 									error={!!touched.imagesFiles && !!errors.imagesFiles}
 									helperText={touched.imagesFiles && errors.imagesFiles}

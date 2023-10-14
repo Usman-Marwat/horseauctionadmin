@@ -24,6 +24,7 @@ import {
 } from '@mui/x-date-pickers';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from '../../components/Header';
@@ -31,7 +32,6 @@ import { useState } from 'react';
 import { MuiFileInput } from 'mui-file-input';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from '@mui/icons-material';
 import { uploadImagesToCloudinary } from '../../config/cloudinary';
 
@@ -39,6 +39,7 @@ const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
 
 export default () => {
 	const isNonMobile = useMediaQuery('(min-width:600px)');
+	const { eventId } = useParams();
 
 	return (
 		<Box m="20px">
@@ -91,6 +92,7 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 	const [errorSnack, setErrorSnack] = useState(true);
 	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
+	const { eventId } = useParams();
 
 	const handleSnackBarClose = (event, reason) => {
 		if (reason === 'clickaway') return;
@@ -110,7 +112,7 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 		setLoading(true);
 		try {
 			const images = await uploadImagesToCloudinary(values.imagesFiles);
-			addAuction.mutate({ type: 'Fixed', ...values, images });
+			addAuction.mutate({ type: 'Fixed', ...values, eventId, images });
 			setLoading(false);
 		} catch (error) {
 			console.log(error);
@@ -140,7 +142,7 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 					<Typography>Auction is successfully Created!</Typography>
 					<Button
 						variant="text"
-						onClick={() => navigate('/products')}
+						onClick={() => navigate(`/products/${eventId}`)}
 						size="small"
 					>
 						See Auctions <ArrowRight />
@@ -338,8 +340,9 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 								sx={{ gridColumn: 'span 2' }}
 							/>
 
-							<Box sx={{ gridColumn: 'span 4' }}>
+							<Box sx={{ gridColumn: 'span 2' }}>
 								<DatePicker
+									sx={{ width: '100%' }}
 									disableFuture
 									label="Date of Birth"
 									format="DD/MM/YYYY"
@@ -370,7 +373,7 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 								name="description"
 								error={!!touched.description && !!errors.description}
 								helperText={touched.description && errors.description}
-								sx={{ gridColumn: 'span 2' }}
+								sx={{ gridColumn: 'span 4' }}
 								inputProps={{
 									style: {
 										height: 100,
@@ -378,7 +381,7 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 								}}
 							/>
 
-							<Box sx={{ gridColumn: 'span 4' }}>
+							<Box sx={{ gridColumn: 'span 2' }}>
 								<DatePicker
 									label="Date of Auction"
 									format="DD/MM/YYYY"
@@ -394,6 +397,7 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 											onBlur: handleBlur,
 										},
 									}}
+									sx={{ width: '100%' }}
 								/>
 							</Box>
 
@@ -464,6 +468,7 @@ const RealTimeAuction = ({ isNonMobile }) => {
 	const [isSuccessSnack, setSuccessSnack] = useState(false);
 	const [errorSnack, setErrorSnack] = useState(true);
 	const navigate = useNavigate();
+	const { eventId } = useParams();
 
 	const handleSnackBarClose = (event, reason) => {
 		if (reason === 'clickaway') return;
@@ -482,7 +487,7 @@ const RealTimeAuction = ({ isNonMobile }) => {
 	const handleFormSubmit = async (values, { resetForm }) => {
 		try {
 			const images = await uploadImagesToCloudinary(values.imagesFiles);
-			addAuction.mutate({ type: 'Realtime', ...values, images });
+			addAuction.mutate({ type: 'Realtime', ...values, eventId, images });
 			resetForm();
 		} catch (error) {
 			console.log(error);
@@ -510,7 +515,7 @@ const RealTimeAuction = ({ isNonMobile }) => {
 					<Typography>Auction is successfully Created!</Typography>
 					<Button
 						variant="text"
-						onClick={() => navigate('/products')}
+						onClick={() => navigate(`/products/${eventId}`)}
 						size="small"
 					>
 						See Auctions <ArrowRight />
