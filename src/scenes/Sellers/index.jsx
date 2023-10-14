@@ -23,7 +23,7 @@ const Sellers = () => {
 		<Box sx={{ width: '100%' }} p={2}>
 			<Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 				{data.map((auctionRequest) => (
-					<Grid item xs={6} key={auctionRequest._id}>
+					<Grid item xs={12} md={6} key={auctionRequest._id}>
 						<AuctionRequestCard auctionRequest={auctionRequest} />
 					</Grid>
 				))}

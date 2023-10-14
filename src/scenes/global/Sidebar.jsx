@@ -25,7 +25,7 @@ import {
 
 import { tokens } from '../../theme';
 import userImage from '../../assets/user.jpg';
-import { EventSharp } from '@mui/icons-material';
+import { EventSharp, SellOutlined } from '@mui/icons-material';
 
 const SideMenu = () => {
 	const theme = useTheme();
@@ -176,18 +176,17 @@ const SideMenu = () => {
 							selected={selected}
 							setSelected={setSelected}
 						/>
-						<Item
+						{/* <Item
 							title="Auctions"
 							to="/products"
 							icon={<ShoppingCartOutlined />}
 							selected={selected}
 							setSelected={setSelected}
-						/>
+						/> */}
 						<Item
-							// title="Calendar"
 							title="Sellers"
 							to="/sellers"
-							icon={<CalendarTodayOutlinedIcon />}
+							icon={<SellOutlined />}
 							selected={selected}
 							setSelected={setSelected}
 						/>

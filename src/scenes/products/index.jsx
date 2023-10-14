@@ -20,7 +20,7 @@ import { AddCircle, DeleteOutline } from '@mui/icons-material';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import IosShareIcon from '@mui/icons-material/IosShare';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import _ from 'lodash';
 import axios from 'axios';
 
@@ -36,6 +36,7 @@ const Products = () => {
 	const theme = useTheme();
 	const isNonMobile = useMediaQuery('(min-width: 1000px)');
 	const [selected, setSelected] = useState();
+	const { eventId } = useParams();
 
 	const { data, isLoading } = useQuery({
 		queryKey: ['products'],
@@ -46,7 +47,7 @@ const Products = () => {
 		<Box m="1.5rem 2.5rem">
 			<Header title="Auctions" su btitle="See your list of Bids" />
 			<Box sx={{ marginTop: 1 }}>
-				<Link to={'/addProduct'} style={{ textDecoration: 'none' }}>
+				<Link to={`/addProduct/${eventId}`} style={{ textDecoration: 'none' }}>
 					<Button type="submit" color="secondary" variant="contained">
 						<Typography color="white" mr="0.7rem">
 							Create Auction

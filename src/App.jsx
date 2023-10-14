@@ -44,7 +44,7 @@ import AuctionRequest from './pagesCustomer/AuctionRequest';
 import { AnimatePresence } from 'framer-motion';
 import AddEvent from './scenes/addEvent';
 
-function App() {
+export default () => {
 	const [theme, colorMode] = useMode();
 	const [isSidebar, setIsSidebar] = useState(true);
 	const [loading, setLoading] = useState(true);
@@ -94,9 +94,7 @@ function App() {
 			</LocalizationProvider>
 		</ColorModeContext.Provider>
 	);
-}
-
-export default App;
+};
 
 const AnimatedAdminRoutes = () => {
 	const location = useLocation();
@@ -116,10 +114,10 @@ const AnimatedAdminRoutes = () => {
 
 				{/*Protected Routes*/}
 				<Route element={<RequireAuth allowedRoles={[2001]} />}>
-					<Route path="/products" element={<Products />} />
 					<Route path="/events" element={<Events />} />
 					<Route path="/addEvent" element={<AddEvent />} />
-					<Route path="/addProduct" element={<AddProduct />} />
+					<Route path="/products/:eventId" element={<Products />} />
+					<Route path="/addProduct/:eventId" element={<AddProduct />} />
 				</Route>
 
 				{/*Catch all*/}
