@@ -25,6 +25,7 @@ import {
 
 import { tokens } from '../../theme';
 import userImage from '../../assets/user.jpg';
+import { EventSharp } from '@mui/icons-material';
 
 const SideMenu = () => {
 	const theme = useTheme();
@@ -168,6 +169,13 @@ const SideMenu = () => {
 						>
 							Pages
 						</Typography>
+						<Item
+							title="Events"
+							to="/events"
+							icon={<EventSharp />}
+							selected={selected}
+							setSelected={setSelected}
+						/>
 						<Item
 							title="Auctions"
 							to="/products"

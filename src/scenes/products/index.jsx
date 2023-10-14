@@ -28,10 +28,9 @@ import Header from '../../components/Header';
 import FlexBetween from '../../components/FlexBetween';
 import ImageSlider from '../../components/ImageSlider';
 import { useQuery } from '@tanstack/react-query';
-import useBidProducts from '../../hooks/useBidProducts';
 
-// const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
-const baseUrl = 'https://erin-impossible-donkey.cyclic.app/';
+const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
+// const baseUrl = 'https://erin-impossible-donkey.cyclic.app/';
 
 const Products = () => {
 	const theme = useTheme();
@@ -42,8 +41,6 @@ const Products = () => {
 		queryKey: ['products'],
 		queryFn: () => axios.get(`${baseUrl}auction`).then((res) => res.data),
 	});
-
-	// const { data,isLoading,error} = useBidProducts();
 
 	return (
 		<Box m="1.5rem 2.5rem">

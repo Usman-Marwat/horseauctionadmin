@@ -23,6 +23,7 @@ import Invoices from './scenes/invoices';
 import FAQ from './scenes/faq';
 // import Geography from './scenes/geography';
 import { ColorModeContext, useMode } from './theme';
+import Events from './scenes/Events';
 import Products from './scenes/products';
 import AddProduct from './scenes/addProduct';
 import SignUp from './scenes/Auth/Signup';
@@ -41,6 +42,7 @@ import useAuth from './hooks/useAuth';
 import CustomerProducts from './pagesCustomer/CustomerProducts';
 import AuctionRequest from './pagesCustomer/AuctionRequest';
 import { AnimatePresence } from 'framer-motion';
+import AddEvent from './scenes/addEvent';
 
 function App() {
 	const [theme, colorMode] = useMode();
@@ -115,6 +117,8 @@ const AnimatedAdminRoutes = () => {
 				{/*Protected Routes*/}
 				<Route element={<RequireAuth allowedRoles={[2001]} />}>
 					<Route path="/products" element={<Products />} />
+					<Route path="/events" element={<Events />} />
+					<Route path="/addEvent" element={<AddEvent />} />
 					<Route path="/addProduct" element={<AddProduct />} />
 				</Route>
 

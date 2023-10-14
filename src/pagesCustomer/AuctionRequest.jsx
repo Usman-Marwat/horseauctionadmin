@@ -848,7 +848,6 @@ const fixedPriceAuctionSchema = yup.object().shape({
 const initialValues = {
 	auctioneer: '',
 	breed: '',
-	breed: '',
 	color: '',
 	sex: '',
 	sire: '',
