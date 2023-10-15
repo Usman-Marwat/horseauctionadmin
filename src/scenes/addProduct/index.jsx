@@ -105,6 +105,7 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 		onSuccess: (savedAuction, sentAuction) => {
 			console.log(savedAuction);
 			setSuccessSnack(true);
+			setLoading(false);
 		},
 	});
 
@@ -113,7 +114,6 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 		try {
 			const images = await uploadImagesToCloudinary(values.imagesFiles);
 			addAuction.mutate({ type: 'Fixed', ...values, eventId, images });
-			setLoading(false);
 		} catch (error) {
 			console.log(error);
 		}
@@ -467,6 +467,7 @@ const FixedPriceAuction = ({ isNonMobile }) => {
 const RealTimeAuction = ({ isNonMobile }) => {
 	const [isSuccessSnack, setSuccessSnack] = useState(false);
 	const [errorSnack, setErrorSnack] = useState(true);
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 	const { eventId } = useParams();
 
@@ -481,11 +482,13 @@ const RealTimeAuction = ({ isNonMobile }) => {
 		onSuccess: (savedAuction, sentAuction) => {
 			console.log(savedAuction);
 			setSuccessSnack(true);
+			setLoading(false);
 		},
 	});
 
 	const handleFormSubmit = async (values, { resetForm }) => {
 		try {
+			setLoading(true);
 			const images = await uploadImagesToCloudinary(values.imagesFiles);
 			addAuction.mutate({ type: 'Realtime', ...values, eventId, images });
 			resetForm();
@@ -498,7 +501,7 @@ const RealTimeAuction = ({ isNonMobile }) => {
 		<>
 			<Backdrop
 				sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-				open={addAuction.isLoading}
+				open={addAuction.isLoading || loading}
 			>
 				<CircularProgress color="inherit" />
 			</Backdrop>

@@ -67,8 +67,8 @@ function Navbar() {
 				<ul className="menu">
 					{auth.role && (
 						<li className="listItem" onClick={removeNavbar}>
-							<Link className="link" to="/auctions">
-								Auctions
+							<Link className="link" to="/events">
+								Events
 							</Link>
 						</li>
 					)}
@@ -109,7 +109,7 @@ function Navbar() {
 				{!auth.role ? (
 					<>
 						<Link to="/signup">
-							<div className="text">Sign Up</div>
+							<div className="text">Seller</div>
 						</Link>
 						<Link to="/signin">
 							<div className="text signin">Sign In</div>

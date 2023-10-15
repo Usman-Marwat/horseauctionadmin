@@ -43,6 +43,7 @@ import CustomerProducts from './pagesCustomer/CustomerProducts';
 import AuctionRequest from './pagesCustomer/AuctionRequest';
 import { AnimatePresence } from 'framer-motion';
 import AddEvent from './scenes/addEvent';
+import CustomerEvents from './pagesCustomer/CustomerEvents';
 
 export default () => {
 	const [theme, colorMode] = useMode();
@@ -134,7 +135,8 @@ const AnimatedCustomerRoutes = () => {
 		<AnimatePresence mode="popLayout">
 			<Routes location={location} key={location.pathname}>
 				<Route path="/" element={<Navigate to="/auctions" replace />} />
-				<Route path="/auctions" element={<CustomerProducts />} />
+				<Route path="/events" element={<CustomerEvents />} />
+				<Route path="/auctions/:eventId" element={<CustomerProducts />} />
 				<Route path="/signin" element={<SignIn />} />
 				<Route path="/signup" element={<SignUp />} />
 				<Route path="/about" element={<AboutPage />} />

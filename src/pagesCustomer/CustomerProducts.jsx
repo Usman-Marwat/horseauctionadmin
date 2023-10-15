@@ -26,7 +26,7 @@ import {
 	CircularProgress,
 } from '@mui/material';
 import { AddCircle } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import _ from 'lodash';
 import axios from 'axios';
@@ -102,12 +102,13 @@ const TabViews = () => {
 
 const FixedAuctions = () => {
 	const isNonMobile = useMediaQuery('(min-width: 1000px)');
+	const { eventId } = useParams();
 
 	const { data, isLoading } = useQuery({
 		queryKey: ['fixed'],
 		queryFn: () =>
 			axios
-				.get(`${baseUrl}auction`, { params: { type: 'Fixed' } })
+				.get(`${baseUrl}auction`, { params: { eventId, type: 'Fixed' } })
 				.then((res) => res.data),
 	});
 
@@ -165,12 +166,13 @@ const FixedAuctions = () => {
 
 const RealtimeAuctions = () => {
 	const isNonMobile = useMediaQuery('(min-width: 1000px)');
+	const { eventId } = useParams();
 
 	const { data, isLoading } = useQuery({
 		queryKey: ['realtime'],
 		queryFn: () =>
 			axios
-				.get(`${baseUrl}auction`, { params: { type: 'Realtime' } })
+				.get(`${baseUrl}auction`, { params: { eventId, type: 'Realtime' } })
 				.then((res) => res.data),
 	});
 
